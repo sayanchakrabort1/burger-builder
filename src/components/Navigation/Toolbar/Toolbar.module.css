@@ -21,7 +21,7 @@
     display:none;
 }
 
-@media (min-width){
+@media (min-width: 500px){
     .DesktopOnly{
         display: block;
     }

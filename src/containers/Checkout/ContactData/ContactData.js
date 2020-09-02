@@ -20,10 +20,10 @@ class ContactData extends Component {
         this.setState({
             loading: true
         });
-
+        console.log(this.props.price);
         const order = {
             ingredients: this.props.ingredients,
-            price      : this.props.totalPrice,
+            price      : this.props.price,
             customer   : {
                 name: 'Sayan',
                 email: 'sayan@kk.com',
