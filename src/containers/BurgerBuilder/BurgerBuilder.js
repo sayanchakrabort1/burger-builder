@@ -8,7 +8,7 @@ import axios from '../../axios-orders';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withError from '../../withError/withError';
 import {connect} from 'react-redux';
-import * as actionTypes from '../../store/actions';
+import * as burgerBuilderActions from '../../store/actions/actionHead';
 
 // const IG_PRICES = {
 //     salad: 20,
@@ -29,13 +29,7 @@ class BurgerBuilder extends Component {
     }
 
     componentDidMount () {
-        // axios.get('https://react-my-burger-be310.firebaseio.com/ingredients.json').then(response => {
-        //     this.setState({
-        //         ingredients: response.data
-        //     });
-        //     this.updatePriceHandler(response.data);
-        // }).catch( error => error);
-        //handles through redux now
+        this.props.onInItIngredients()
     }
 
     // addIngredientHandler = (type) => {
@@ -105,7 +99,7 @@ class BurgerBuilder extends Component {
     }
 
     purchasingHandler = () => {
-
+        this.props.onInitPurchase();
         this.props.history.push({
             pathname: '/checkout',
         });
@@ -160,15 +154,18 @@ class BurgerBuilder extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredients,
-        price: state.totalPrice
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.totalPrice,
+        error: state.burgerBuilder.error
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onIngredientAdded: (ingName) => dispatch({type:actionTypes.ADD_INGREDIENT , ingredient: ingName}),
-        onIngredientRemoved: (ingName) => dispatch({type:actionTypes.REMOVE_INGREDIENT , ingredient: ingName}),
+        onIngredientAdded: (ingName) => dispatch(burgerBuilderActions.addIngredient(ingName)),
+        onIngredientRemoved: (ingName) => dispatch(burgerBuilderActions.removeIngredient(ingName)),
+        onInItIngredients: () => dispatch(burgerBuilderActions.initIngredients()),
+        onInitPurchase: () => dispatch(burgerBuilderActions.purchaseInit())
     }
 }
 
